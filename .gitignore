@@ -1,0 +1,8 @@
+## Executables
+.out
+.exe
+
+## IDE
+CMakeLists.txt
+cmake-build-debug
+.idea
