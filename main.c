@@ -54,17 +54,32 @@ void flightidchecker(){
     clearscreen();
 }
 
-
-int main() {
-
-    // initialize seat reservation with 0's
+void initializer(){
     for(int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             flightseats[i][j] = 0;
         }
     }
 
+}
+
+int main() {
+
+    // initialize seat reservation with 0's
+    initializer();
+    // Checks flight number
     flightidchecker();
+    // provides menu function
     menu();
+
+    fflush(stdin);
+    char input[2];
+    fgets(input, 3, stdin);
+    printf("%d ", input[0] - 65);
+    printf("%d ", input[1] - 49);
+
+    printf("\n%c %c", input[0], input[1]);
+
+
     return 0;
 }
