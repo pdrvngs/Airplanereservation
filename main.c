@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 
+#define ROWS 32
+#define COLS 6
+
 // Global Variables
 char flightid[6];
-
+char flightseats[6][32];
 
 int menu(){
     fflush(stdin);
@@ -32,6 +35,14 @@ int menu(){
 }
 
 int main() {
+
+    // initialize seat reservator
+
+    for(int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            flightseats[i][j] = 0;
+        }
+    }
     printf("Welcome! Please enter your flight code: ");
     fgets(flightid, 6, stdin);
     if(strlen(flightid) != 6){
