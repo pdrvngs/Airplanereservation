@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define ROWS 32
@@ -7,6 +8,12 @@
 // Global Variables
 char flightid[10];
 char flightseats[6][32];
+
+void clearscreen()
+{
+    system("@cls||clear");
+}
+
 
 int menu(){
     fflush(stdin);
@@ -34,15 +41,7 @@ int menu(){
     return 0;
 }
 
-int main() {
-
-    // initialize seat reservation with 0's
-    for(int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
-            flightseats[i][j] = 0;
-        }
-    }
-
+void flightidchecker(){
     printf("Welcome! Please enter your flight code: ");
     fgets(flightid, 10, stdin);
     unsigned int num = strlen(flightid);
@@ -52,6 +51,20 @@ int main() {
         fgets(flightid, 10, stdin);
         num = strlen(flightid);
     }
+    clearscreen();
+}
+
+
+int main() {
+
+    // initialize seat reservation with 0's
+    for(int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            flightseats[i][j] = 0;
+        }
+    }
+
+    flightidchecker();
     menu();
     return 0;
 }
