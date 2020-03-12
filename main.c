@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 // Global Variables
 char flightid[6];
@@ -21,8 +22,10 @@ int menu(){
                 return 2;
 
             default:
-                printf("Oops, that's not a valid choice!\n");
-                fflush(stdin);
+                if(choice != 3) {
+                    printf("Oops, that's not a valid choice!\n");
+                    fflush(stdin);
+                }
         }
     }
     return 0;
@@ -31,6 +34,11 @@ int menu(){
 int main() {
     printf("Welcome! Please enter your flight code: ");
     fgets(flightid, 6, stdin);
+    if(strlen(flightid) != 6){
+        fflush(stdin);
+        printf("No es un vuelo valido, porfavor intente de nuevo: ");
+        fgets(flightid, 6, stdin);
+    }
     menu();
     return 0;
 }
