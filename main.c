@@ -5,7 +5,7 @@
 #define COLS 6
 
 // Global Variables
-char flightid[6];
+char flightid[10];
 char flightseats[6][32];
 
 int menu(){
@@ -36,19 +36,21 @@ int menu(){
 
 int main() {
 
-    // initialize seat reservator
-
+    // initialize seat reservation with 0's
     for(int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             flightseats[i][j] = 0;
         }
     }
+
     printf("Welcome! Please enter your flight code: ");
-    fgets(flightid, 6, stdin);
-    if(strlen(flightid) != 6){
+    fgets(flightid, 10, stdin);
+    unsigned int num = strlen(flightid);
+    while(num != 6){
         fflush(stdin);
         printf("No es un vuelo valido, porfavor intente de nuevo: ");
-        fgets(flightid, 6, stdin);
+        fgets(flightid, 10, stdin);
+        num = strlen(flightid);
     }
     menu();
     return 0;
