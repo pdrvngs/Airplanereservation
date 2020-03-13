@@ -63,23 +63,45 @@ void initializer(){
 
 }
 
+void reservation(){
+    char input[5];
+    int int1;
+    int int2;
+    int row;
+    int column;
+
+    fflush(stdin);
+    fgets(input, 5, stdin);
+    unsigned int length = strlen(input);
+
+    column = input[0] - 65;
+
+    if(length == 4){
+
+        int1 = (input[1]-48)*10;
+        int2 = (input[2] - 48);
+        row = int1 + int2;
+        fputs(input, stdout);
+        printf("%d\n", row-1);
+        printf("%d\n", column);
+
+    } else if(length == 3){
+        int1 = (input[1] - 48);
+        printf("%d\n", int1-1);
+        printf("%d\n", column);
+    }
+}
+
 int main() {
 
     // initialize seat reservation with 0's
-    initializer();
+    //initializer();
     // Checks flight number
-    flightidchecker();
+    //flightidchecker();
     // provides menu function
-    menu();
+    //menu();
 
-    fflush(stdin);
-    char input[2];
-    fgets(input, 3, stdin);
-    printf("%d ", input[0] - 65);
-    printf("%d ", input[1] - 49);
-
-    printf("\n%c %c", input[0], input[1]);
+    reservation();
 
 
-    return 0;
 }
