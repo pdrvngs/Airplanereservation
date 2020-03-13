@@ -8,6 +8,7 @@
 // Global Variables
 char flightid[10];
 char flightseats[6][32];
+char input[5];
 
 void clearscreen()
 {
@@ -63,33 +64,50 @@ void initializer(){
 
 }
 
-void reservation(){
-    char input[5];
+int getrownumber(){
+    char* pinput = input;
     int int1;
     int int2;
     int row;
-    int column;
 
-    fflush(stdin);
-    fgets(input, 5, stdin);
-    unsigned int length = strlen(input);
 
-    column = input[0] - 65;
+    unsigned int length = strlen(pinput);
 
     if(length == 4){
 
-        int1 = (input[1]-48)*10;
-        int2 = (input[2] - 48);
+        int1 = (pinput[1]-48)*10;
+        int2 = (pinput[2] - 48);
         row = int1 + int2;
-        fputs(input, stdout);
         printf("%d\n", row-1);
-        printf("%d\n", column);
+        return row - 1;
 
     } else if(length == 3){
-        int1 = (input[1] - 48);
+        int1 = (pinput[1] - 48);
         printf("%d\n", int1-1);
-        printf("%d\n", column);
+        return int1 - 1;
     }
+    return 0;
+}
+
+int getcolumnnumber(){
+    char* pinput = input;
+    int column;
+
+
+    column = pinput[0] - 65;
+    printf("%d", column);
+    return column;
+
+}
+
+void reservation() {
+    char* pinput = input;
+    fflush(stdin);
+    fgets(pinput, 5, stdin);
+
+    getcolumnnumber();
+    getrownumber();
+
 }
 
 int main() {
@@ -102,6 +120,5 @@ int main() {
     //menu();
 
     reservation();
-
 
 }
