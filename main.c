@@ -112,7 +112,7 @@ int getcolumnnumber(){
 
 void reservation() {
     fflush(stdin);
-
+    int reservado = 0;
     int row;
     int col;
     char nothing[3];
@@ -121,13 +121,23 @@ void reservation() {
     // Asks for seat number
     printf("Que asiento desea reservar? \n");
     fgets(pinput, 5, stdin);
-
     col = getcolumnnumber();
     printf("\n");
     row = getrownumber();
 
-    flightseats[row][col] = 'X';
-
+    while(reservado != 1) {
+        if(flightseats[row][col] == 'X'){
+            printf("Este asiento ya esta reservado, porfavor ingrese otro asiento: ");
+            fgets(pinput, 5, stdin);
+            col = getcolumnnumber();
+            printf("\n");
+            row = getrownumber();
+        }
+        else {
+            flightseats[row][col] = 'X';
+            reservado = 1;
+        }
+    }
     fgets(nothing, 3, stdin);
 }
 
@@ -137,9 +147,9 @@ void available(){
 
     for(int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            printf("%c ",flightseats[i][j]);
+            printf("| %c ",flightseats[i][j]);
         }
-        printf("\n");
+        printf("|\n");
     }
     fflush(stdin);
     fgets(nothing, 3, stdin);
@@ -151,15 +161,19 @@ int main() {
 
     // initialize seat reservation with 0's
     initializer();
+
     // Checks flight number
     flightidchecker();
+
     // menu function
     while(choice != 3){
         choice = menu();
         if(choice == 1){
+            // calls reservation process
             reservation();
         }
         else if(choice == 2){
+            // gets available seats
             available();
         }
 
