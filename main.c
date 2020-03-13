@@ -10,6 +10,7 @@ char flightid[10];
 char flightseats[6][32];
 char input[5];
 
+
 void clearscreen()
 {
     system("@cls||clear");
@@ -17,6 +18,7 @@ void clearscreen()
 
 
 int menu(){
+    clearscreen();
     fflush(stdin);
     int choice = 0;
     printf("VUELO: "); fputs(flightid, stdout); printf("\n");
@@ -26,10 +28,8 @@ int menu(){
         scanf("%d", &choice);
         switch(choice) {
             case 1:
-                printf("Eligio 1");
                 return 1;
             case 2:
-                printf("Eligio 2");
                 return 2;
 
             default:
@@ -39,8 +39,9 @@ int menu(){
                 }
         }
     }
-    return 0;
+    return 3;
 }
+
 
 void flightidchecker(){
     printf("Welcome! Please enter your flight code: ");
@@ -55,6 +56,7 @@ void flightidchecker(){
     clearscreen();
 }
 
+
 void initializer(){
     for(int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
@@ -63,6 +65,7 @@ void initializer(){
     }
 
 }
+
 
 int getrownumber(){
     char* pinput = input;
@@ -89,6 +92,7 @@ int getrownumber(){
     return 0;
 }
 
+
 int getcolumnnumber(){
     char* pinput = input;
     int column;
@@ -100,25 +104,49 @@ int getcolumnnumber(){
 
 }
 
+
 void reservation() {
+    char nothing[3];
     char* pinput = input;
+
+    // Asks for seat number
+    printf("Que asiento desea reservar? \n");
     fflush(stdin);
     fgets(pinput, 5, stdin);
 
     getcolumnnumber();
+    printf("\n");
     getrownumber();
+    fgets(nothing, 3, stdin);
+}
 
+void available(){
+    for(int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            printf("%c ",flightseats[i][j]);
+        }
+        printf("\n");
+    }
 }
 
 int main() {
+    int choice = 0;
 
     // initialize seat reservation with 0's
-    //initializer();
+    initializer();
     // Checks flight number
-    //flightidchecker();
+    flightidchecker();
     // provides menu function
-    //menu();
+    while(choice != 3){
+        choice = menu();
+        if(choice == 1){
+            reservation();
+        }
+        if(choice == 2){
+            available();
+        }
 
-    reservation();
+    }
+
 
 }
