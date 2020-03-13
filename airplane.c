@@ -2,8 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+// MACROS
 #define ROWS 32
 #define COLS 6
+
+// Function prototypes
+void clearscreen(void); // Clears screen
+int menu(void); // Provides menu options and checks input
+void flightidchecker(void); // checks flight id for correct # of digits
+void initializer(void); // Initializes flight seat array
+int getrownumber(void); // gets row number based on input [letter-num-num or letter-num]
+int getcolnumber(void); // gets col number based on the first value of input
+void reservation(void); // assigns reservation to seat number given, runs check for reserved seats
+void available(void); // displays the seat chart with available seats.
+
 
 // Global Variables
 char flightid[10];
@@ -97,7 +109,7 @@ int getrownumber(){
 }
 
 
-int getcolumnnumber(){
+int getcolnumber(){
     fflush(stdin);
 
     char* pinput = input;
@@ -109,7 +121,7 @@ int getcolumnnumber(){
 
 }
 
-
+// is missing the type menu to return to menu from FASE II
 void reservation() {
     fflush(stdin);
     int reservado = 0;
@@ -121,7 +133,7 @@ void reservation() {
     // Asks for seat number
     printf("Que asiento desea reservar? \n");
     fgets(pinput, 5, stdin);
-    col = getcolumnnumber();
+    col = getcolnumber();
     printf("\n");
     row = getrownumber();
 
@@ -129,34 +141,44 @@ void reservation() {
         if(flightseats[row][col] == 'X'){
             printf("Este asiento ya esta reservado, porfavor ingrese otro asiento: ");
             fgets(pinput, 5, stdin);
-            col = getcolumnnumber();
+            col = getcolnumber();
             printf("\n");
             row = getrownumber();
         }
         else {
+            printf("Felicitaciones! Reservo el asiento: "); fputs(pinput, stdout);
             flightseats[row][col] = 'X';
             reservado = 1;
         }
     }
+    fflush(stdin);
     fgets(nothing, 3, stdin);
 }
 
 void available(){
     fflush(stdin);
     char nothing[3];
-
+    printf("   | A | B | C | D | E | F |\n");
+    printf("   -------------------------\n");
     for(int i = 0; i < ROWS; i++) {
+        if(i > 8) {
+            printf(" %d", i+1);
+        } else {
+            printf(" %d ", i+1);
+        }
         for (int j = 0; j < COLS; j++) {
             printf("| %c ",flightseats[i][j]);
         }
         printf("|\n");
     }
     fflush(stdin);
+    printf("Presione ENTER para regresar al menu principal\n");
     fgets(nothing, 3, stdin);
 }
 
 int main() {
     fflush(stdin);
+    clearscreen();
     int choice = 0;
 
     // initialize seat reservation with 0's
