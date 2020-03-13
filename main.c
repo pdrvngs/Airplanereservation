@@ -7,7 +7,7 @@
 
 // Global Variables
 char flightid[10];
-char flightseats[6][32];
+char flightseats[32][6];
 char input[5];
 
 
@@ -44,6 +44,8 @@ int menu(){
 
 
 void flightidchecker(){
+    fflush(stdin);
+
     printf("Welcome! Please enter your flight code: ");
     fgets(flightid, 10, stdin);
     unsigned int num = strlen(flightid);
@@ -58,9 +60,11 @@ void flightidchecker(){
 
 
 void initializer(){
+    fflush(stdin);
+
     for(int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            flightseats[i][j] = 0;
+            flightseats[i][j] = '0';
         }
     }
 
@@ -68,6 +72,8 @@ void initializer(){
 
 
 int getrownumber(){
+    fflush(stdin);
+
     char* pinput = input;
     int int1;
     int int2;
@@ -81,12 +87,10 @@ int getrownumber(){
         int1 = (pinput[1]-48)*10;
         int2 = (pinput[2] - 48);
         row = int1 + int2;
-        printf("%d\n", row-1);
         return row - 1;
 
     } else if(length == 3){
         int1 = (pinput[1] - 48);
-        printf("%d\n", int1-1);
         return int1 - 1;
     }
     return 0;
@@ -94,59 +98,71 @@ int getrownumber(){
 
 
 int getcolumnnumber(){
+    fflush(stdin);
+
     char* pinput = input;
     int column;
 
 
     column = pinput[0] - 65;
-    printf("%d", column);
     return column;
 
 }
 
 
 void reservation() {
+    fflush(stdin);
+
+    int row;
+    int col;
     char nothing[3];
     char* pinput = input;
 
     // Asks for seat number
     printf("Que asiento desea reservar? \n");
-    fflush(stdin);
     fgets(pinput, 5, stdin);
 
-    getcolumnnumber();
+    col = getcolumnnumber();
     printf("\n");
-    getrownumber();
+    row = getrownumber();
+
+    flightseats[row][col] = 'X';
+
     fgets(nothing, 3, stdin);
 }
 
 void available(){
+    fflush(stdin);
+    char nothing[3];
+
     for(int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             printf("%c ",flightseats[i][j]);
         }
         printf("\n");
     }
+    fflush(stdin);
+    fgets(nothing, 3, stdin);
 }
 
 int main() {
+    fflush(stdin);
     int choice = 0;
 
     // initialize seat reservation with 0's
     initializer();
     // Checks flight number
     flightidchecker();
-    // provides menu function
+    // menu function
     while(choice != 3){
         choice = menu();
         if(choice == 1){
             reservation();
         }
-        if(choice == 2){
+        else if(choice == 2){
             available();
         }
 
     }
-
 
 }
