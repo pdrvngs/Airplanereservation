@@ -76,27 +76,29 @@ int getrownumber(){
     int row;
     unsigned int length = strlen(pinput);
 
-    if(length == 4){
+
+
+    if(length == 4 && (((pinput[1]-48)*10) + (pinput[2]-48)) < 32){
         int1 = (pinput[1]-48)*10;
         int2 = (pinput[2] - 48);
         row = int1 + int2;
         return row - 1;
-
-    } else if(length == 3){
+    } else if(length == 3 && pinput[1]-48 < 10){
         int1 = (pinput[1] - 48);
         return int1 - 1;
-    }else {return 0;}
+    }else {return 100;}
 }
 
 
 int getcolnumber(){
     fflush(stdin);
     char* pinput = input;
-    int column;
-    column = toupper(pinput[0]) - 65;
-    return column;
+    if((pinput[0] - 65) < 7) {
+        int column;
+        column = toupper(pinput[0]) - 65;
+        return column;
+    } else {return 100;}
 }
-
 
 void flightidchecker(){
     fflush(stdin);
@@ -117,39 +119,34 @@ void flightidchecker(){
 void reservation() {
     fflush(stdin);
     int reservado = 0;
-    int row = 40;
-    int col = 10;
+    int row = 1;
+    int col = 1;
     char* pinput = input;
 
     // Asks for seat number
     printf("Que asiento desea reservar? \n");
-    //while((col > 6 || col < 0) && (row > 32 || row < 0)) {
         fgets(pinput, 5, stdin);
         tolowerstring(pinput);
-        if(strcmp(pinput, "menu") == 0){
+        if (strcmp(pinput, "menu") == 0) {
             return;
-        }else {
+        } else {
             toupperstring(pinput);
             col = getcolnumber();
             row = getrownumber();
-            //printf("%d %d", col, row);
-            /* if((col > 6 || col < 0) && (row > 32 || row < 0)){
-                 printf("No es un asiento valido, intente de nuevo: ");
-             }
-         }*/
-            while (reservado != 1) {
-                if (flightseats[row][col] == 'X') {
-                    printf("Este asiento ya esta reservado, porfavor ingrese otro asiento: ");
-                    fgets(pinput, 5, stdin);
-                    col = getcolnumber();
-                    printf("\n");
-                    row = getrownumber();
-                } else {
-                    printf("Felicitaciones! Reservo el asiento: ");
-                    fputs(pinput, stdout);
-                    flightseats[row][col] = 'X';
-                    reservado = 1;
-                }
+            printf("%d %d\n", col, row);
+        }
+        while (reservado != 1) {
+            if (flightseats[row][col] == 'X') {
+                printf("Este asiento ya esta reservado, porfavor ingrese otro asiento: ");
+                fgets(pinput, 5, stdin);
+                col = getcolnumber();
+                printf("\n");
+                row = getrownumber();
+            } else {
+                printf("Felicitaciones! Reservo el asiento: ");
+                fputs(pinput, stdout);
+                flightseats[row][col] = 'X';
+                reservado = 1;
             }
         }
     pressenter();
@@ -158,8 +155,7 @@ void reservation() {
 
 void available(){
     fflush(stdin);
-    char nothing[3];
-    printf("   | A | B | C | D | E | F |\n");
+    printf("\n\n\n\n   | A | B | C | D | E | F |\n");
     printf("   -------------------------\n");
     for(int i = 0; i < ROWS; i++) {
         if(i > 8) {
@@ -172,9 +168,8 @@ void available(){
         }
         printf("|\n");
     }
-    fflush(stdin);
     printf("Presione ENTER para regresar al menu principal\n");
-    fgets(nothing, 3, stdin);
+    pressenter();
 }
 
 
@@ -264,3 +259,22 @@ int main() {
     }
 
 }
+
+
+
+/* BREAK LIST:
+ *  - Adding a space or too many characters to reservation input gives segmentation fault or bus error.
+ *    Segmentation fault seems to be an error thrown by function 'toupper/tolower'. Don't know bus error.
+ *
+ * FAULT LIST:
+ * - No input check on reservation system that only allows input to be in array range
+ * - No input check on flight id that checks for correct format (not critical)
+ *
+ * TODO LIST:
+ * 1. Build a input check system for reservation input.
+ * 2. Build suggestion system for extra credit.
+ * 3. Add colors where appropriate
+ * 4. Find a better way to display the matrix.
+ * 5. Create an options menu that allows you to change the way our application operates. (like the way the matrix is displayed.)
+ *
+*/
